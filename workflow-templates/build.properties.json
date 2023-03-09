@@ -1,0 +1,6 @@
+{
+  "name": "Build and publish Docker image",
+  "description": "CD starter workflow. Builds image and pushes to docker registry, default: ghcr",
+  "iconName": "octocon package-dependents",
+  "categories": ["python"]
+}
