@@ -1,7 +1,8 @@
 name: 📦 Release
+
 on:
-  milestone:
-    types: [closed]
+  workflow_call:
+
 jobs:
   release:
     name: 📝 Draft Release
