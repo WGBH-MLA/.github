@@ -2,6 +2,11 @@ name: 📚 Docs
 
 on:
   workflow_call:
+    inputs:
+      poetry_args:
+        description: Additional args to pass to poetry.
+        type: string
+        default: --only docs
 
 jobs:
   deploy:
@@ -26,14 +31,14 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-docs-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: 🏋 Download dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root --only docs
+        run: poetry install --no-interaction --no-root ${{ inputs.poetry_args }}
 
       - name: 🚧 Install dependencies
-        run: poetry install --no-interaction --only docs
+        run: poetry install --no-interaction ${{ inputs.poetry_args }}
 
       - name: 🧵 Set version string
         run: echo VERSION_TITLE=$(poetry run mike list | grep latest) >> $GITHUB_ENV
