@@ -5,8 +5,13 @@ on:
     inputs:
       python_version:
         description: The version of python to setup
-        default: 3.11
         type: string
+        default: 3.11
+
+      environment:
+        description: The name of the environment to deploy
+        type: string
+        default: Codecov
 
       poetry_args:
         description: Additional args to pass to poetry
@@ -21,6 +26,7 @@ jobs:
   run_pytest:
     name: 🐍 Run pytest and upload coverage report
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
 
     steps:
       - name: 📰 Checkout
