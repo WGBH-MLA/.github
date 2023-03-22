@@ -1,0 +1,60 @@
+name: 🐍 Pytest
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: The version of python to setup
+        default: 3.11
+        type: string
+
+      poetry_args:
+        description: Additional args to pass to poetry
+        type: string
+        default: --with test
+  
+      pytest_args:
+        description: Additional args to pass to pytest
+        type: string
+
+jobs:
+  run_pytest:
+    name: 🐍 Run pytest and upload coverage report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📰 Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        id: setup-python
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - name: 📓 Setup poetry
+        run: pipx install poetry
+
+      - name: 💸 Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-test-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: 🏋 Download dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root ${{ inputs.poetry_args }}
+
+      - name: 🏗️ Install dependencies
+        run: poetry install --no-interaction ${{ inputs.poetry_args }}
+
+      - name: 🧪 Run pytest suite
+        run: poetry run pytest -v --cov --cov-report lcov ${{ inputs.pytest_args }}
+
+      - name: 📈 Uploade coverage report
+        # run this step, even if the tests fail
+        if: success() || failure()
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
