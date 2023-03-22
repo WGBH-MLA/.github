@@ -1,0 +1,31 @@
+name: 👖 Lint
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: The version of python to setup
+        default: 3.11
+        type: string
+
+jobs:
+  lint:
+    name: 👕 Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📰 Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        id: setup-python
+        with:
+          python-version: ${{ inputs.python_version }}
+          cache: pip
+
+      - name: 🌨️ Install flake8
+        run: pip install flake8
+
+      - name: 👔 Run Linter
+        run: flake8 -v
