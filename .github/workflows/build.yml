@@ -10,10 +10,10 @@ on:
       target:
         description: The docker image to target
         type: string
-
-env:
-  REGISTRY: ${{ inputs.registry }}
-  IMAGE_NAME: ${{ github.repository }}
+      image_name: 
+        description: The name of the image to  publish
+        type: string
+        default: ${{ github.repository }}
 
 jobs:
   build-and-push-image:
@@ -31,12 +31,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ inputs.registry }}/${{ inputs.image_name }}
 
       - name: 🔏 Log in to the Container registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
