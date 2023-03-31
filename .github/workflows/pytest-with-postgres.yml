@@ -1,0 +1,70 @@
+name: 🐍 Pytest
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.x
+
+      environment:
+        description: The name of the environment to deploy
+        type: string
+        default: Codecov
+
+      pip_args:
+        description: Install args for pip
+        type: string
+        default: .[test]
+
+      pytest_args:
+        description: Additional args to pass to pytest
+        type: string
+
+jobs:
+  run_pytest:
+    name: 🐍 Run pytest and upload coverage report
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    # Service containers to run with `container-job`
+    services:
+        # Label used to access the service container
+        postgres:
+          # Docker Hub image
+          image: postgres
+          # Provide the password for postgres
+          env:
+            POSTGRES_PASSWORD: postgres
+          # Set health checks to wait until postgres has started
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+
+    steps:
+      - name: 📰 Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@main
+        id: setup-python
+        with:
+          python-version: ${{ inputs.python_version }}
+          cache: pip
+
+      - name: 🏗️ Install dependencies
+        run: pip install ${{ inputs.pip_args }}
+
+      - name: 🧪 Run pytest suite
+        run: pytest --cov=. --cov-report lcov ${{ inputs.pytest_args }}
+
+      - name: 📈 Uploade coverage report
+        # run this step, even if the tests fail
+        if: success() || failure()
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+    
