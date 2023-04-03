@@ -6,7 +6,7 @@ on:
       pdm_args:
         description: Install args for pdm
         type: string
-        default: -G docs --no-self
+        default: -G docs --no-default
       python_version:
         description: The version of python to setup
         type: string
@@ -32,7 +32,7 @@ jobs:
         run: pdm install ${{ inputs.pdm_args }}
 
       - name: 🧵 Set version string
-        run: echo VERSION_TITLE=$(mike list | grep latest) >> $GITHUB_ENV
+        run: echo VERSION_TITLE=$(pdm run mike list | grep latest) >> $GITHUB_ENV
 
       - name: 🖋️ Configure git user
         run: |
