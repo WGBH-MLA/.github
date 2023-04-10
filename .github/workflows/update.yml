@@ -28,22 +28,21 @@ jobs:
           python-version: 3.11
           cache: true
 
-      - name: 🤖 Configure git user
-        run: |
-          git config user.name MLA-Bot
-          git config user.email mla-bot@wgbh.org
-
       - name: 👚 Update to latest compatible versions
         run: pdm update ${{ inputs.pdm_args }}
 
-      - name: 📤 Push changes
-        run: |
-          git checkout -b update-dependencies
-          git add pyproject.toml pdm.lock
-          git commit -m "🤖 Update dependencies"
-          git push
-
       - name: 📝 Create pull request
-        run: gh pr create -B main -H update-dependencies --title "🤖 Update dependencies" --body "🤖 Update dependencies"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: update-dependencies
+          title: 🤖 Update dependencies
+          body: |
+            This PR updates dependencies to their latest compatible versions.
+
+            This PR was created by the MLA-Bot
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: pyproject.toml,pdm.lock
+          committer: MLA-Bot <mla-bot@wgbh.mla>
+          commit-message: 🤖 Update dependencies
+          labels: maintenance 🔧
+          draft: true
