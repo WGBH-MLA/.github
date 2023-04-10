@@ -1,0 +1,49 @@
+name: 💅 Update dependencies
+
+on:
+  workflow_call:
+    inputs:
+      pdm_args:
+        description: Arguments to pass to pdm
+        type: string
+        default: -u --save-compatible --no-sync --no-self
+  workflow_dispatch:
+    inputs:
+      pdm_args:
+        description: Arguments to pass to pdm
+        type: string
+        default: -u --save-compatible --no-sync --no-self
+
+jobs:
+  update:
+    name: 👛 Update with PDM
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📰 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup PDM
+        uses: pdm-project/setup-pdm@v3
+        with:
+          python-version: 3.11
+          cache: true
+
+      - name: Configure git user
+        run: |
+          git config user.name MLA-Bot
+          git config user.email mla-bot@wgbh.org
+
+      - name: 👚 Update to latest compatible versions
+        run: pdm update ${{ inputs.pdm_args }}
+
+      - name: 📤 Push changes
+        run: |
+          git checkout -b update-dependencies
+          git add pyproject.toml pdm.lock
+          git commit -m "🤖 Update dependencies"
+          git push
+
+      - name: 📝 Create pull request
+        run: gh pr create -B main -H update-dependencies --title "🤖 Update dependencies" --body "🤖 Update dependencies"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
