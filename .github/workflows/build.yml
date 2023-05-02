@@ -10,10 +10,17 @@ on:
       target:
         description: The docker image to target
         type: string
-      image_name: 
+      image_name:
         description: The name of the image to  publish
         type: string
         default: ${{ github.repository }}
+      file:
+        description: The Dockerfile to build
+        type: string
+        default: Dockerfile
+      tags:
+        description: The tags to apply to the image
+        type: string
 
 jobs:
   build-and-push-image:
@@ -32,6 +39,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ inputs.registry }}/${{ inputs.image_name }}
+          tags: ${{ inputs.tags }}
 
       - name: 🔏 Log in to the Container registry
         uses: docker/login-action@v2
@@ -48,3 +56,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           target: ${{ inputs.target }}
+          file: ${{ inputs.file }}
