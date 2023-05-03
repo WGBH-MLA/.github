@@ -21,6 +21,14 @@ on:
       tags:
         description: The tags to apply to the image
         type: string
+      buildx:
+        description: Whether to use buildx
+        type: boolean
+        default: false
+      platforms:
+        description: The build architecture platforms
+        type: string
+        default: linux/amd64
 
 jobs:
   build-and-push-image:
@@ -33,6 +41,18 @@ jobs:
     steps:
       - name: 📰 Checkout repository
         uses: actions/checkout@v3
+
+      - name: 🦤 Set up QEMU
+        if: ${{ inputs.buildx }}
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: ${{ inputs.platforms }}
+
+      - name: 📦 Setup Docker Buildx
+        if: ${{ inputs.buildx }}
+        uses: docker/setup-buildx-action@v2
+        with:
+          platforms: ${{ inputs.platforms }}
 
       - name: 🏷️ Extract metadata (tags, labels) for Docker
         id: meta
