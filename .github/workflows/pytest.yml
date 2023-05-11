@@ -22,10 +22,6 @@ on:
         description: Additional args to pass to pytest
         type: string
 
-    secrets:
-      token:
-        description: The token to upload the coverage report to codecov
-
 jobs:
   run_pytest:
     name: 🐍 Run pytest and upload coverage report
@@ -50,11 +46,8 @@ jobs:
         run: pytest --cov --cov-report lcov ${{ inputs.pytest_args }}
 
       - name: 📈 Uploade coverage report
-        # skip this step if no token present
         # run this step, even if the tests fail
-        env:
-          token: ${{ secrets.token }}
-        if: env.token != null && success() || failure()
+        if: success() || failure()
         uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.token }}
+          token: ${{ secrets.CODECOV_TOKEN }}
