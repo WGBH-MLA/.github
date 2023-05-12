@@ -20,6 +20,8 @@ jobs:
     name: 📦 Build and publish package
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
     steps:
       - name: 📰 Checkout
         uses: actions/checkout@v3
