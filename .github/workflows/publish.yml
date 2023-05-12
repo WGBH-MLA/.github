@@ -16,12 +16,9 @@ on:
         description: The token to use to authenticate with PyPi
 
 jobs:
-  publish:
-    name: 📦 Build and publish package
+  build:
+    name: 📦 Build package
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
     steps:
       - name: 📰 Checkout
         uses: actions/checkout@v3
@@ -37,6 +34,22 @@ jobs:
 
       - name: 🏗️ Build package
         run: pdm build
+
+      - name: 🛫 Export build files
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist
+
+  publish:
+    name: 🗞 Publish package
+    needs: build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+    steps:
+      - name: 🛬 Download artifacts
+        uses: actions/download-artifact@v3
 
       - name: 🗞 Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
