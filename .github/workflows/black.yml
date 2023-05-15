@@ -28,4 +28,4 @@ jobs:
         run: pip install black
 
       - name: 🎱 Run Black
-        run: black -vS --check --diff --color .
+        run: black -S --check --diff --color .
