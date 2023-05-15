@@ -10,7 +10,6 @@ on:
 
       ruff_args:
         description: The arguments to pass to ruff
-        default: -v
         type: string
 
 jobs:
