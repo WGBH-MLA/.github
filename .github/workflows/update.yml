@@ -1,0 +1,48 @@
+name: 💅 Update dependencies
+
+on:
+  workflow_call:
+    inputs:
+      pdm_args:
+        description: Arguments to pass to pdm
+        type: string
+        default: -u --save-compatible --no-sync --no-self
+  workflow_dispatch:
+    inputs:
+      pdm_args:
+        description: Arguments to pass to pdm
+        type: string
+        default: -u --save-compatible --no-sync --no-self
+
+jobs:
+  update:
+    name: 👛 Update with PDM
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📰 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup PDM
+        uses: pdm-project/setup-pdm@v3
+        with:
+          python-version: 3.11
+          cache: true
+
+      - name: 👚 Update to latest compatible versions
+        run: pdm update ${{ inputs.pdm_args }}
+
+      - name: 📝 Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: update-dependencies
+          title: 🤖 Update dependencies
+          body: |
+            This PR updates dependencies to their latest compatible versions.
+
+            This PR was created by the MLA-Bot
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: pyproject.toml,pdm.lock
+          committer: MLA-Bot <mla-bot@wgbh.mla>
+          commit-message: 🤖 Update dependencies
+          labels: maintenance 🔧
+          draft: true

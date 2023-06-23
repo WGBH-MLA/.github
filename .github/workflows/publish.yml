@@ -1,0 +1,57 @@
+name: 📖 Publish to PyPi
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: The name of the environment to deploy
+        type: string
+        default: pypi
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.x
+    secrets:
+      token:
+        description: The token to use to authenticate with PyPi
+
+jobs:
+  build:
+    name: 📦 Build package
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📰 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📲 Setup PDM
+        uses: pdm-project/setup-pdm@v3
+        id: setup-python
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - name: 🚚 Install dependencies
+        run: pdm install --prod
+
+      - name: 🏗️ Build package
+        run: pdm build
+
+      - name: 🛫 Export build files
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist
+
+  publish:
+    name: 🗞 Publish package
+    needs: build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+    steps:
+      - name: 🛬 Download artifacts
+        uses: actions/download-artifact@v3
+
+      - name: 🗞 Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.token }}

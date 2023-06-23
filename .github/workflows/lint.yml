@@ -8,9 +8,13 @@ on:
         default: 3.11
         type: string
 
+      ruff_args:
+        description: The arguments to pass to ruff
+        type: string
+
 jobs:
   lint:
-    name: 👕 Linter
+    name: 👔 Linter
     runs-on: ubuntu-latest
 
     steps:
@@ -24,8 +28,8 @@ jobs:
           python-version: ${{ inputs.python_version }}
           cache: pip
 
-      - name: 🌨️ Install flake8
-        run: pip install flake8
+      - name: 🐕 Install ruff
+        run: pip install ruff
 
-      - name: 👔 Run Linter
-        run: flake8 -v
+      - name: 🐶 Run Ruff Linter
+        run: ruff ${{ inputs.ruff_args }} .
