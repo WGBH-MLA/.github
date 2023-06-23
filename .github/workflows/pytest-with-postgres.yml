@@ -13,10 +13,10 @@ on:
         type: string
         default: Codecov
 
-      pip_args:
-        description: Install args for pip
+      pdm_args:
+        description: Install args for pdm
         type: string
-        default: .[test]
+        default: -G test
 
       pytest_args:
         description: Additional args to pass to pytest
@@ -56,7 +56,7 @@ jobs:
           cache: pip
 
       - name: 🏗️ Install dependencies
-        run: pip install ${{ inputs.pip_args }}
+        run: pip install ${{ inputs.pdm_args }}
 
       - name: 🧪 Run pytest suite
         run: pytest --cov=. --cov-report lcov ${{ inputs.pytest_args }}
