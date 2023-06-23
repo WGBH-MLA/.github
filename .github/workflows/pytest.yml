@@ -13,10 +13,10 @@ on:
         type: string
         default: Codecov
 
-      pip_args:
-        description: Install args for pip
+      pdm_args:
+        description: Install args for pdm
         type: string
-        default: .[test]
+        default: -G test
 
       pytest_args:
         description: Additional args to pass to pytest
@@ -32,18 +32,17 @@ jobs:
       - name: 📰 Checkout
         uses: actions/checkout@v3
 
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@main
-        id: setup-python
+      - name: 📦 Set up PDM
+        uses: pdm-project/setup-pdm@v3
         with:
           python-version: ${{ inputs.python_version }}
-          cache: pip
+          cache: true
 
-      - name: 🏗️ Install dependencies
-        run: pip install ${{ inputs.pip_args }}
+      - name: 🚧 Install dependencies
+        run: pdm install ${{ inputs.pdm_args }}
 
       - name: 🧪 Run pytest suite
-        run: pytest --cov=. --cov-report lcov ${{ inputs.pytest_args }}
+        run: pdm run pytest -v --cov --cov-report lcov ${{ inputs.pytest_args }}
 
       - name: 📈 Uploade coverage report
         # run this step, even if the tests fail
