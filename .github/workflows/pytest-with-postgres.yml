@@ -28,16 +28,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
-    # Service containers to run with `container-job`
     services:
-        # Label used to access the service container
         postgres:
-          # Docker Hub image
           image: postgres
-          # Provide the password for postgres
           env:
             POSTGRES_PASSWORD: postgres
-          # Set health checks to wait until postgres has started
           options: >-
             --health-cmd pg_isready
             --health-interval 10s
@@ -48,18 +43,17 @@ jobs:
       - name: 📰 Checkout
         uses: actions/checkout@v3
 
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@main
-        id: setup-python
+      - name: 📦 Set up PDM
+        uses: pdm-project/setup-pdm@v3
         with:
           python-version: ${{ inputs.python_version }}
-          cache: pip
+          cache: true
 
-      - name: 🏗️ Install dependencies
-        run: pip install ${{ inputs.pdm_args }}
+      - name: 🚧 Install dependencies
+        run: pdm install ${{ inputs.pdm_args }}
 
       - name: 🧪 Run pytest suite
-        run: pytest --cov=. --cov-report lcov ${{ inputs.pytest_args }}
+        run: pdm run pytest -v --cov --cov-report lcov ${{ inputs.pytest_args }}
 
       - name: 📈 Uploade coverage report
         # run this step, even if the tests fail
@@ -67,4 +61,3 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-    
