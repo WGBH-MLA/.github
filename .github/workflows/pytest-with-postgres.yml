@@ -27,6 +27,10 @@ on:
         type: string
         default: postgres
 
+
+concurrency:
+  group: pytest-with-postgres
+
 jobs:
   run_pytest:
     name: 🐍 Run pytest and upload coverage report
