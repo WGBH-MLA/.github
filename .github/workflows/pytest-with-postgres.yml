@@ -21,6 +21,11 @@ on:
       pytest_args:
         description: Additional args to pass to pytest
         type: string
+    
+      pg_db:
+        description: Name of postgres database to use
+        type: string
+        default: postgres
 
 jobs:
   run_pytest:
@@ -33,7 +38,7 @@ jobs:
           image: postgres
           env:
             POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: chowda
+            POSTGRES_DB: ${{ inputs.pg_db }}
           options: >-
             --health-cmd pg_isready
             --health-interval 10s
