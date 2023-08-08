@@ -1,4 +1,9 @@
 name: 📖 Publish to PyPi
+# Reusable Publish to PyPi GitHub Action
+# This should work, but doesn't because PyPi trusted publishing requires reusable workflows to be in the same repository as the workflow that calls them.
+# https://github.com/pypi/warehouse/issues/11096
+# Current workaround is to copy this file into the repository that calls it.
+# Example: https://github.com/WGBH-MLA/sonyci/blob/main/.github/workflows/publish.yml
 
 on:
   workflow_call:
@@ -38,6 +43,7 @@ jobs:
       - name: 🛫 Export build files
         uses: actions/upload-artifact@v3
         with:
+          name: dist
           path: dist
 
   publish:
