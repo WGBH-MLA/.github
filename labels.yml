@@ -1,0 +1,87 @@
+# Using https://github.com/Financial-Times/github-label-sync
+# npm install -g github-label-sync
+# export GITHUB_ACCESS_TOKEN=...
+# github-label-sync --labels labels.yml ORG/REPO
+- aliases:
+    - bug
+    - 'bug :bug:'
+  name: bug 🐛
+  color: d73a4a
+- aliases:
+    - CD
+    - 'CD :building_construction:'
+  name: CD 🏗️
+  description: Relating to Continuous Deployment
+  color: '732487'
+- aliases:
+    - CI
+    - 'CI :test_tube:'
+  name: CI 🦾
+  description: Relating to Continuous Integration
+  color: E09B24
+- aliases:
+    - production
+  name: production 🎭
+  description: Relating to the production deployment
+  color: 772b8d
+- aliases:
+    - test
+    - test ⚗️
+  name: test 🧪
+  description: Tests and testing
+  color: 38C5D6
+- aliases:
+    - breaking
+    - 'breaking :broken_heart:'
+  name: breaking 💔
+  description: Breaking changes
+  color: BF0212
+- aliases:
+    - documentation
+    - 'documentation :scroll:'
+  name: documentation 📜
+  color: 0075ca
+- aliases:
+    - duplicate
+    - 'duplicate :gemini:'
+  name: duplicate ♊
+  color: cfd3d7
+- aliases:
+    - enhancement
+    - 'enhancement :heavy_plus_sign:'
+  name: enhancement ➕
+  color: a2eeef
+- aliases:
+    - good first issue
+    - 'good first issue :new_moon_with_face:'
+  name: good first issue 🌚
+  color: 7057ff
+- aliases:
+    - help wanted
+    - 'help wanted :information_source:'
+  name: help wanted ℹ️
+  color: '008672'
+- aliases:
+    - invalid
+    - 'invalid :exclamation:'
+  name: invalid ❗
+  color: e4e669
+- aliases:
+    - maintenance
+    - 'maintenance :wrench:'
+  name: maintenance 🔧
+  description: Updates and upgrades
+  color: F87431
+- aliases:
+    - question
+    - 'question :grey_question:'
+  name: question ❔
+  color: d876e3
+- aliases:
+    - wontfix
+    - 'wontfix :x:'
+  name: wontfix ✖️
+  color: '000000'
+- name: dev 💻
+  description: Relating to development
+  color: 6cc644
