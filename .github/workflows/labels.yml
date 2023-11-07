@@ -1,5 +1,6 @@
 name: 🏷 Sync labels
 on:
+  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -10,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: EndBug/label-sync@v2
+      - name: 🔄 Syncronize labels
+        uses: EndBug/label-sync@v2
         with:
           config-file: https://raw.githubusercontent.com/WGBH-MLA/.github/main/labels.yml
           delete-other-labels: false
