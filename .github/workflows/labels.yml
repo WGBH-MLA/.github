@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: EndBug/label-sync@v2
         with:
-          config-file: https://raw.githubusercontent.com/WGBH-MLA/.github/main/.github/workflows/pytest.yml
+          config-file: https://raw.githubusercontent.com/WGBH-MLA/.github/main/labels.yml
           delete-other-labels: false
           dry-run: false
           token: ${{ secrets.GITHUB_TOKEN }}

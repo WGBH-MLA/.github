@@ -11,6 +11,14 @@
 # Use "🏷 Sync labels" action from .github/workflows/labels.yml
 
 
+# Breaking
+- aliases:
+    - breaking
+    - 'breaking :broken_heart:'
+  name: breaking 💔
+  description: Breaking changes
+  color: BF0212
+
 # Bug
 - aliases:
     - bug
@@ -34,28 +42,13 @@
   description: Relating to Continuous Integration
   color: E09B24
 
-# Production
+# Dev
 - aliases:
-    - production
-  name: production 🎭
-  description: Relating to the production deployment
-  color: 772b8d
-
-# Test
-- aliases:
-    - test
-    - test ⚗️
-  name: test 🧪
-  description: Tests and testing
-  color: 38C5D6
-
-# Breaking
-- aliases:
-    - breaking
-    - 'breaking :broken_heart:'
-  name: breaking 💔
-  description: Breaking changes
-  color: BF0212
+    - dev
+    - 'dev :computer:'
+  name: dev 💻
+  description: Relating to development
+  color: 6cc644
 
 # Documentation
 - aliases:
@@ -107,6 +100,13 @@
   description: Updates and upgrades
   color: F87431
 
+# Production
+- aliases:
+    - production
+  name: production 🎭
+  description: Relating to the production deployment
+  color: 772b8d
+
 # Question
 - aliases:
     - question
@@ -114,12 +114,17 @@
   name: question ❔
   color: d876e3
 
+# Test
+- aliases:
+    - test
+    - test ⚗️
+  name: test 🧪
+  description: Tests and testing
+  color: 38C5D6
+
 # Won't fix
 - aliases:
     - wontfix
     - 'wontfix :x:'
   name: wontfix ✖️
   color: '000000'
-- name: dev 💻
-  description: Relating to development
-  color: 6cc644
