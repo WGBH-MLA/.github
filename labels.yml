@@ -23,6 +23,7 @@
     - blocked
     - 'blocked :no_entry:'
   name: blocked ⛔
+  description: Blocked by something
   color: '333333'
 
 # Bug
@@ -82,6 +83,7 @@
     - feature request
     - 'feature request :sparkles:'
   name: feature request 🧚
+  description: New feature request
   color: 00ffa2
 
 # Good first issue
