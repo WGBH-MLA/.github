@@ -77,6 +77,13 @@
   name: enhancement ➕
   color: a2eeef
 
+# Feature request
+- aliases:
+    - feature request
+    - 'feature request :sparkles:'
+  name: feature request 🧚
+  color: 00ffa2
+
 # Good first issue
 - aliases:
     - good first issue
