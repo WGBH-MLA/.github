@@ -10,7 +10,6 @@
 # https://github.com/marketplace/actions/label-sync
 # Use "🏷 Sync labels" action from .github/workflows/labels.yml
 
-
 # Breaking
 - aliases:
     - breaking
@@ -18,6 +17,13 @@
   name: breaking 💔
   description: Breaking changes
   color: BF0212
+
+# Blocked
+- aliases:
+    - blocked
+    - 'blocked :no_entry:'
+  name: blocked ⛔
+  color: '333333'
 
 # Bug
 - aliases:
@@ -81,9 +87,10 @@
 # Help wanted
 - aliases:
     - help wanted
+    - help wanted ℹ️
     - 'help wanted :information_source:'
-  name: help wanted ℹ️
-  color: '008672'
+  name: help wanted 🆘
+  color: 'efec4f'
 
 # Invalid
 - aliases:
