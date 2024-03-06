@@ -26,10 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📰 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📲 Setup PDM
-        uses: pdm-project/setup-pdm@v3
+        uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ inputs.python_version }}
@@ -41,7 +41,7 @@ jobs:
         run: pdm build
 
       - name: 🛫 Export build files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
@@ -55,7 +55,7 @@ jobs:
       id-token: write
     steps:
       - name: 🛬 Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: 🗞 Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
