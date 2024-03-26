@@ -1,14 +1,18 @@
 # Label Sync tools:
 
+# Usage:
+# Commit the "🏷 Sync labels" action to the main branch of your repo
+# Then run the action manually
+# .github/workflows/sync_labels.yml
+
+# or
+
 # https://github.com/Financial-Times/github-label-sync
 # npm install -g github-label-sync
 # export GITHUB_ACCESS_TOKEN=...
 # github-label-sync --labels labels.yml ORG/REPO
 
-# or
-
-# https://github.com/marketplace/actions/label-sync
-# Use "🏷 Sync labels" action from .github/workflows/labels.yml
+##########
 
 # Breaking
 - aliases:
@@ -16,11 +20,12 @@
     - 'breaking :broken_heart:'
   name: breaking 💔
   description: Breaking changes
-  color: BF0212
+  color: bf0212
 
 # Blocked
 - aliases:
     - blocked
+    - Blocked
     - 'blocked :no_entry:'
   name: blocked ⛔
   description: Blocked by something
@@ -29,6 +34,7 @@
 # Bug
 - aliases:
     - bug
+    - Bug
     - 'bug :bug:'
   name: bug 🐛
   color: d73a4a
@@ -47,7 +53,7 @@
     - 'CI :test_tube:'
   name: CI 🦾
   description: Relating to Continuous Integration
-  color: E09B24
+  color: e09b24
 
 # Dev
 - aliases:
@@ -81,6 +87,7 @@
 # Feature request
 - aliases:
     - feature request
+    - Feature Request
     - 'feature request :sparkles:'
   name: feature request 🧚
   description: New feature request
@@ -99,7 +106,7 @@
     - help wanted ℹ️
     - 'help wanted :information_source:'
   name: help wanted 🆘
-  color: 'efec4f'
+  color: efec4f
 
 # Invalid
 - aliases:
@@ -141,6 +148,8 @@
 # Won't fix
 - aliases:
     - wontfix
+    - won't fix
     - 'wontfix :x:'
-  name: wontfix ✖️
+    - wontfix ✖️
+  name: won't fix ✖️
   color: '000000'
