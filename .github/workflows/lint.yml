@@ -11,6 +11,7 @@ on:
       ruff_args:
         description: The arguments to pass to ruff
         type: string
+        default: check .
 
 jobs:
   lint:
@@ -32,4 +33,4 @@ jobs:
         run: pip install ruff
 
       - name: 🐶 Run Ruff Linter
-        run: ruff ${{ inputs.ruff_args }} .
+        run: ruff ${{ inputs.ruff_args }}
