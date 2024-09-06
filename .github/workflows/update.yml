@@ -25,14 +25,14 @@ jobs:
       - name: 📦 Setup PDM
         uses: pdm-project/setup-pdm@v4
         with:
-          python-version: 3.11
+          python-version: 3.x
           cache: true
 
       - name: 👚 Update to latest compatible versions
         run: pdm update ${{ inputs.pdm_args }}
 
       - name: 📝 Create pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           branch: update-dependencies
           title: 🤖 Update dependencies
@@ -40,9 +40,8 @@ jobs:
             This PR updates dependencies to their latest compatible versions.
 
             This PR was created by the MLA-Bot
-          token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
           add-paths: pyproject.toml,pdm.lock
-          committer: MLA-Bot <mla-bot@wgbh.mla>
           commit-message: 🤖 Update dependencies
           labels: maintenance 🔧
-          draft: true
+          draft: always-true
