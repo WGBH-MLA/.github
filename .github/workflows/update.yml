@@ -40,9 +40,8 @@ jobs:
             This PR updates dependencies to their latest compatible versions.
 
             This PR was created by the MLA-Bot
-          token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
           add-paths: pyproject.toml,pdm.lock
-          committer: MLA-Bot <mla-bot@wgbh.mla>
           commit-message: 🤖 Update dependencies
           labels: maintenance 🔧
-          draft: true
+          draft: always-true
