@@ -1,6 +1,8 @@
 name: 📦 Release
 
 on:
+  milestone:
+    types: [closed]
   workflow_call:
 
 jobs:
@@ -8,8 +10,8 @@ jobs:
     name: 📝 Draft Release
     runs-on: ubuntu-latest
     steps:
-      - name: 📰 Checkout
-        uses: actions/checkout@v6
+    - name: 📰 Checkout
+      uses: actions/checkout@v6
 
-      - name: 📦 Create draft release from milestone
-        uses: WGBH-MLA/milestones@main
+    - name: 📦 Create draft release from milestone
+      uses: WGBH-MLA/milestones@main
