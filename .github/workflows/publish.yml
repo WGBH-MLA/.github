@@ -4,60 +4,49 @@ name: 📖 Publish to PyPi
 # https://github.com/pypi/warehouse/issues/11096
 # Current workaround is to copy this file into the repository that calls it.
 # Example: https://github.com/WGBH-MLA/sonyci/blob/main/.github/workflows/publish.yml
-
 on:
-  workflow_call:
-    inputs:
-      environment:
-        description: The name of the environment to deploy
-        type: string
-        default: pypi
-      python_version:
-        description: The version of python to setup
-        type: string
-        default: 3.x
-    secrets:
-      token:
-        description: The token to use to authenticate with PyPi
+  workflow_dispatch:
+  # push:
+  #   tags:
+  #   - '*'
 
 jobs:
   build:
     name: 📦 Build package
     runs-on: ubuntu-latest
     steps:
-      - name: 📰 Checkout
-        uses: actions/checkout@v6
+    - name: 📰 Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
 
-      - name: 📲 Setup PDM
-        uses: pdm-project/setup-pdm@v4
-        id: setup-python
-        with:
-          python-version: ${{ inputs.python_version }}
+    - name: 😎 Install uv
+      uses: astral-sh/setup-uv@v7
 
-      - name: 🚚 Install dependencies
-        run: pdm install --prod
+    - name: 🏗️ Build package
+      run: uv build
 
-      - name: 🏗️ Build package
-        run: pdm build
-
-      - name: 🛫 Export build files
-        uses: actions/upload-artifact@v5
-        with:
-          name: dist
-          path: dist
+    - name: 🛫 Export build files
+      uses: actions/upload-artifact@v6
+      with:
+        name: dist
+        path: dist
 
   publish:
     name: 🗞 Publish package
     needs: build
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment:
+      name: pypi
+      # Add the url to your package on PyPi here
+      # url: https://pypi.org/p/PACKAGE-NAME
     permissions:
       id-token: write
     steps:
-      - name: 🛬 Download artifacts
-        uses: actions/download-artifact@v6
+    - name: 🛬 Download artifacts
+      uses: actions/download-artifact@v7
+      with:
+        path: dist
 
-      - name: 🗞 Publish package
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.token }}
+    - name: 🗞 Publish package
+      uses: pypa/gh-action-pypi-publish@release/v1

@@ -1,43 +1,34 @@
 name: 📚 Docs
 
 on:
-  workflow_call:
-    inputs:
-      pdm_args:
-        description: Install args for pdm
-        type: string
-        default: -G docs --no-default
-      python_version:
-        description: The version of python to setup
-        type: string
-        default: 3.x
+  push:
+    branches:
+    - main
+    - docs
+  workflow_dispatch:
 
 jobs:
   deploy:
     name: 📑 Build and deploy docs
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: 📰 Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
+    - name: 📰 Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
 
-      - name: 📦 Set up PDM
-        uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: ${{ inputs.python_version }}
-          cache: true
+    - name: 😎 Install uv
+      uses: astral-sh/setup-uv@v7
 
-      - name: 🚧 Install dependencies
-        run: pdm install ${{ inputs.pdm_args }}
+    - name: 🧵 Set version string
+      run: echo VERSION_TITLE=$(uv run mike list | grep latest) >> $GITHUB_ENV
 
-      - name: 🧵 Set version string
-        run: echo VERSION_TITLE=$(pdm run mike list | grep latest) >> $GITHUB_ENV
+    - name: 🛠 Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: 🖋️ Configure git user
-        run: |
-          git config user.name mla-bot
-          git config user.email mla-bot@wgbh.org
-
-      - name: 🏗️ Deploy docs
-        run: pdm run mike deploy --push --update-aliases ${VERSION_TITLE%\[latest\]} latest
+    - name: 🏗️ Deploy docs
+      run: uv run mike deploy --push --update-aliases ${VERSION_TITLE%\[latest\]} latest
