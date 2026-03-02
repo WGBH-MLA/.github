@@ -1,0 +1,16 @@
+name: 🏷 SemVer Tags
+
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+
+jobs:
+  sync-tags:
+    name: 🔃 Sync Version Tags
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: 🏷 SemVer Tag sync
+      uses: cbrgm/semver-tag-sync-action@v1
