@@ -13,6 +13,11 @@ on:
         type: string
         default: Codecov
 
+      uv_args:
+        description: Install args for uv
+        type: string
+        default: --no-dev
+
       pytest_args:
         description: Additional args to pass to pytest
         type: string
@@ -54,8 +59,10 @@ jobs:
       with:
         python-version: ${{ inputs.python_version }}
 
-    
-    - name: 🧪 Run pytest suite
+    - name: 🔃 Sync dependencies
+      run: uv sync ${{ inputs.uv_args }}
+
+    - name: 🧪 Run tests
       run: uv run pytest -v --cov --cov-report lcov ${{ inputs.pytest_args }}
 
     - name: 📈 Uploade coverage report
