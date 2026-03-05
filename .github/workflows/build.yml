@@ -62,7 +62,7 @@ jobs:
           tags: ${{ inputs.tags }}
 
       - name: 🔏 Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
